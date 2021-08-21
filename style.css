@@ -1,0 +1,22 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+.gameBoard{
+    height: 512px;
+    width: 512px;
+    border: 1px solid rgb(255, 255, 255);
+    display: flex;
+    flex-wrap: wrap;
+}
+.gameBoardDiv{
+    height: 170px;
+    width: 170px;
+    border: 1px solid rgb(0, 0, 0);
+    font-size: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
