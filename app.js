@@ -1,21 +1,18 @@
 const gameBoard = (() => {
-
     const restartBtn = document.querySelector("#restartBtn");
 
-    // Store the actual gameboard
     let board = ["", "", "",
                  "", "", "",
                  "", "", ""];
 
-    // Displays the board array
-    let display = () => {
+    const display = () => {
         const gameBoardDivs = document.querySelectorAll(".gameBoardDiv");
         for(let i = 0; i<board.length; i++) {
             gameBoardDivs[i].textContent = board[i]
         }
     };
 
-    let updateBoard = (index, player) => {
+    const updateBoard = (index, player) => {
         console.log(index, player)
         if(board[index] != "") return;
         board[index] = player.mark;
@@ -34,9 +31,7 @@ const gameBoard = (() => {
     return {display, board, updateBoard}
 })();
 
-// Control game
 const game = (() => {
-    
     const restartBtn = document.querySelector("#restartBtn");
     restartBtn.addEventListener("click", () => {
         active = true;
@@ -44,15 +39,15 @@ const game = (() => {
         player2.name = inputPlayer2.value
     })
 
-    //If active is true, player can pick and play
+    //If active is false, gameboard is locked
     let active = true;
 
     const display = document.querySelector("#display");
-    display.textContent = "Click to begin"
+    display.textContent = "Click to begin!"
 
-    let pick = () => {
-        player1.name = inputPlayer1.value
-        player2.name = inputPlayer2.value
+    const pick = () => {
+        player1.name = inputPlayer1.value;
+        player2.name = inputPlayer2.value;
         const gameBoardDivs = document.querySelectorAll(".gameBoardDiv");
         gameBoardDivs.forEach((div) => {
             div.addEventListener("click", (e) => {
@@ -66,7 +61,7 @@ const game = (() => {
         })
     }
 
-    let currentPlayer = (player1, player2) => {
+    const currentPlayer = (player1, player2) => {
         if(!(gameBoard.board.includes("X") || gameBoard.board.includes("O"))) {
             return player1;
         } else {
@@ -81,8 +76,7 @@ const game = (() => {
         }
     }
 
-    let checkForWinner = (gameboard, player1, player2) => {
-
+    const checkForWinner = (gameboard, player1, player2) => {
         //Check for 3 in a line horizontally
         if(gameboard[0] == player1.mark && gameboard[1] == player1.mark && gameboard[2] == player1.mark) {
             return player1;
