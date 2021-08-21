@@ -4,12 +4,20 @@
     box-sizing: border-box;
     font-family: sans-serif;
 }
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .gameBoard{
     height: 512px;
     width: 512px;
     border: 1px solid rgb(255, 255, 255);
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 20px;
+
 }
 .gameBoardDiv{
     height: 170px;
@@ -19,4 +27,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+#display{
+    margin-top: 100px;
+    margin-bottom: 20px;
+    height: 50px;
+    width: 511px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form {
+    width: 511px;
+    display: flex;
+    justify-content: space-between;
+}
+[type="text"]{
+    width: 210px;
+    padding: 5px;
+}
+[type="button"]{
+    width: 70px;
 }

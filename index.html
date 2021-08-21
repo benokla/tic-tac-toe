@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <p id="display"></p>
     <div class="gameBoard">
         <div data-index="0"class="gameBoardDiv"></div>
         <div data-index="1"class="gameBoardDiv"></div>
@@ -19,6 +20,11 @@
         <div data-index="7"class="gameBoardDiv"></div>
         <div data-index="8"class="gameBoardDiv"></div>
     </div>
+    <form>
+        <input type="text" id="inputPlayer1" placeholder="Name Player1">
+        <input type="text" id="inputPlayer2" placeholder="Name Player2">
+        <input type="button" value="Restart" id="restartBtn">
+    </form>
     <script src="app.js"></script>
 </body>
 </html>

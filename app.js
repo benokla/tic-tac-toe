@@ -1,4 +1,7 @@
 const gameBoard = (() => {
+
+    const restartBtn = document.querySelector("#restartBtn");
+
     // Store the actual gameboard
     let board = ["", "", "",
                  "", "", "",
@@ -13,26 +16,52 @@ const gameBoard = (() => {
     };
 
     let updateBoard = (index, player) => {
-        console.log(index, player, "a")
+        console.log(index, player)
+        if(board[index] != "") return;
         board[index] = player.mark;
     }
     
+    const clearBoard = () => {
+        for(let i = 0; i<board.length; i++) {
+            board[i] = "";
+        }
+        display(board)
+        game.pick()
+    }
+
+    restartBtn.addEventListener("click", clearBoard);
+
     return {display, board, updateBoard}
 })();
 
-const playerFactory = (name, mark) => {
-    return {name, mark}
-}
-
 // Control game
 const game = (() => {
+    
+    const restartBtn = document.querySelector("#restartBtn");
+    restartBtn.addEventListener("click", () => {
+        active = true;
+        player1.name = inputPlayer1.value
+        player2.name = inputPlayer2.value
+    })
+
+    //If active is true, player can pick and play
+    let active = true;
+
+    const display = document.querySelector("#display");
+    display.textContent = "Click to begin"
+
     let pick = () => {
+        player1.name = inputPlayer1.value
+        player2.name = inputPlayer2.value
         const gameBoardDivs = document.querySelectorAll(".gameBoardDiv");
         gameBoardDivs.forEach((div) => {
             div.addEventListener("click", (e) => {
+                console.log(active)
+                if(active == false) return
                 let currentPick = e.target.dataset.index;
                 gameBoard.updateBoard(currentPick, game.currentPlayer(player1, player2))
                 gameBoard.display()
+                display.textContent = displayWinner(checkForWinner(gameBoard.board, player1, player2));
             })
         })
     }
@@ -52,12 +81,80 @@ const game = (() => {
         }
     }
 
-    return {pick, currentPlayer}
+    let checkForWinner = (gameboard, player1, player2) => {
+
+        //Check for 3 in a line horizontally
+        if(gameboard[0] == player1.mark && gameboard[1] == player1.mark && gameboard[2] == player1.mark) {
+            return player1;
+        }else if(gameboard[0] == player2.mark && gameboard[1] == player2.mark && gameboard[2] == player2.mark) {
+            return player2;
+        }else if(gameboard[3] == player1.mark && gameboard[4] == player1.mark && gameboard[5] == player1.mark) {
+            return player1;
+        }else if(gameboard[3] == player2.mark && gameboard[4] == player2.mark && gameboard[5] == player2.mark) {
+            return player2;
+        }else if(gameboard[6] == player1.mark && gameboard[8] == player1.mark && gameboard[7] == player1.mark) {
+            return player1;
+        }else if(gameboard[6] == player2.mark && gameboard[8] == player2.mark && gameboard[7] == player2.mark) {
+            return player2;
+        //Check for 3 in a line vertically
+        }else if(gameboard[0] == player1.mark && gameboard[3] == player1.mark && gameboard[6] == player1.mark) {
+            return player1;
+        }else if(gameboard[0] == player2.mark && gameboard[3] == player2.mark && gameboard[6] == player2.mark) {
+            return player2;
+        }else if(gameboard[1] == player1.mark && gameboard[4] == player1.mark && gameboard[7] == player1.mark) {
+            return player1;
+        }else if(gameboard[1] == player2.mark && gameboard[4] == player2.mark && gameboard[7] == player2.mark) {
+            return player2;
+        }else if(gameboard[2] == player1.mark && gameboard[8] == player1.mark && gameboard[5] == player1.mark) {
+            return player1;
+        }else if(gameboard[2] == player2.mark && gameboard[8] == player2.mark && gameboard[5] == player2.mark) {
+            return player2;
+        }
+        //Check for 3 diagonally
+        else if(gameboard[0] == player1.mark && gameboard[8] == player1.mark && gameboard[4] == player1.mark) {
+            return player1;
+        }else if(gameboard[0] == player2.mark && gameboard[8] == player2.mark && gameboard[4] == player2.mark) {
+            return player2;
+        }else if(gameboard[2] == player1.mark && gameboard[4] == player1.mark && gameboard[6] == player1.mark) {
+            return player1;
+        }else if(gameboard[2] == player2.mark && gameboard[4] == player2.mark && gameboard[6] == player2.mark) {
+            return player2;
+        }else {
+            if(gameboard.includes("")) {
+                return ""
+            } else {
+                return "Tie"
+            }
+        }
+    }
+
+    const displayWinner = (player) => {
+        if(player == "") {
+            return;
+        } else if(player == "Tie") {
+            return "It's a tie."
+        } else {
+            active = false;
+            return `And the winner is ${player.name} with ${player.mark}`
+        }
+    }
+
+    const inputPlayer1 = document.querySelector("#inputPlayer1");
+    const inputPlayer2 = document.querySelector("#inputPlayer2");
+   
+    const playerFactory = (name, mark) => {
+        return {name, mark}
+    }
+
+    const player1 = playerFactory(inputPlayer1.value, "X");
+    const player2 = playerFactory(inputPlayer2.value, "O");
+
+    return {pick, currentPlayer, active}
 })();
 
-const player1 = playerFactory("Jakob", "X");
-const player2 = playerFactory("Benni", "O");
 
+
+// init
 gameBoard.display()
 game.pick()
 
